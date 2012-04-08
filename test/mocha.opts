@@ -1,0 +1,5 @@
+--require should
+--reporter min
+--ui bdd
+--ignore-leaks
+--compilers coffee:coffee-script
