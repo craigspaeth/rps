@@ -6,8 +6,6 @@ global._ = require 'underscore'
 global.app = module.exports = express.createServer()
 global.db = redis.createClient()
 
-require file for file in _.flatten glob.sync './routes/**/*'
-
 app.configure ->
   app.set "views", __dirname + "/views"
   app.set "view engine", "jade"
@@ -25,6 +23,11 @@ app.configure "development", ->
 
 app.configure "production", ->
   app.use express.errorHandler()
+
+
+require file for file in _.flatten glob.sync './routes/**/*'
+require file for file in _.flatten glob.sync './api/v1/**/*'
+
 
 app.listen 3000, ->
   console.log "Express server listening on port %d in %s mode", app.address().port, app.settings.env
