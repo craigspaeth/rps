@@ -1,21 +1,23 @@
 {
-    "name": "application-name"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.5.8"
-    , "jade": "*"
-    , "redis": "*"
-    , "glob": "*"
-    , "underscore": "*"
-    , "async": "*"
-  }
-  , "devDependencies": {
-      "mocha": "*"
-    , "should": "*"
-    , "jsdom": "0.2.10"
-    , "jquery": "*"
-    , "sinon": "*"
-    , "request": "*"
+  "name": "rps",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "express": "2.5.8",
+    "jade": "*",
+    "mongodb": "*",
+    "glob": "*",
+    "underscore": "*",
+    "async": "*",
+    "everyauth": "*",
+    "validator": "*"
+  },
+  "devDependencies": {
+    "mocha": "*",
+    "should": "*",
+    "jsdom": "0.2.10",
+    "jquery": "*",
+    "sinon": "*",
+    "request": "*"
   }
 }

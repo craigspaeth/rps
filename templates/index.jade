@@ -1,0 +1,12 @@
+!!!
+html
+  head
+    title RPS
+    script( src='https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js' )
+  body
+    if (!user)
+      h1 Login
+      a( href='/auth/twitter' ) Auth with Twitter
+    else
+      h1 Hello
+      = user.name
