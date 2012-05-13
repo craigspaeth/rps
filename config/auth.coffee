@@ -8,18 +8,19 @@ db = require './db'
 everyauth.twitter
   .consumerKey('lZXnAhvZAfOkiQvV11fnEA')
   .consumerSecret('FRLazLWChrfYmbb9marlWKKVRoyvt6l2a4bxvNrB6us')
-  .findOrCreateUser((session, accessToken, accessTokenSecret, twitterUserMetadata) ->
-    promise = @Promise()
-    data = {
-      name: twitterUserMetadata.name
-      twitter_id: twitterUserMetadata.id
-      website: twitterUserMetadata.url
-    }
-    db.collection 'users', (err, collection) ->
-      collection.findAndModify { 'twitter_id': data.twitter_id }, 
-        [['_id','asc']], { $set: data }, { new: true,  upsert: true }, (err, data) ->
-          session.user = data
-          promise.fulfill data
-    return promise
-  )
+  .findOrCreateUser(@findOrCreateTwitterUser)
   .redirectPath('/')
+  
+@findOrCreateTwitterUser = (session, accessToken, accessTokenSecret, twitterUserMetadata) ->
+  promise = @Promise()
+  data = {
+    name: twitterUserMetadata.name
+    twitter_id: twitterUserMetadata.id
+    website: twitterUserMetadata.url
+  }
+  db.collection 'users', (err, collection) ->
+    collection.findAndModify { 'twitter_id': data.twitter_id }, 
+      [['_id','asc']], { $set: data }, { new: true,  upsert: true }, (err, data) ->
+        session.user = data
+        promise.fulfill data
+  promise
