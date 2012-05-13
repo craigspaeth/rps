@@ -1,0 +1,22 @@
+!!!
+html
+  head
+    title RPS
+    != nap.css('all')
+  
+  body
+    if !user
+      h1 Login
+      a.refresh( href='/auth/twitter' ) Auth with Twitter
+    else
+      h1 Hello #{user.name}
+      #frames
+        #home
+         #active-users
+    
+    #scripts
+      != nap.jst('all')
+      != nap.js('all')
+      if user
+        script
+          window.USER = !{JSON.stringify(user)};

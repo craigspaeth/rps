@@ -10,7 +10,9 @@
     "underscore": "*",
     "async": "*",
     "everyauth": "*",
-    "validator": "*"
+    "validator": "*",
+    "socket.io": "*",
+    "nap": "*"
   },
   "devDependencies": {
     "mocha": "*",

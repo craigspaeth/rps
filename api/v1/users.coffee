@@ -1,5 +1,11 @@
+app = require "#{process.cwd()}/config/app"
 ObjectID = require('mongodb').ObjectID
 validate = require "#{process.cwd()}/lib/validators"
+
+app.get "/api/v1/users", (req, res) ->
+  db.collection 'users', (err, collection) ->
+    collection.find().toArray (err, data) ->
+      res.end JSON.stringify data
 
 app.get "/api/v1/user/:id", (req, res) ->
   db.collection 'users', (err, collection) ->
@@ -20,5 +26,11 @@ app.post "/api/v1/user", (req, res) ->
 app.put "/api/v1/user/:id", (req, res) ->
   data = validate.user _.extend req.body, { id: req.params.id }
   db.collection 'users', (err, collection) ->
-    collection.findAndModify { '_id': new ObjectID(req.params.id) }, [['_id','asc']], { $set: data }, { new: true }, (err, data) ->
-      res.end JSON.stringify data
+    collection.findAndModify(
+      { '_id': new ObjectID(req.params.id) }
+      [['_id','asc']]
+      { $set: data }
+      { new: true }
+      (err, data) ->
+        res.end JSON.stringify data
+    )
