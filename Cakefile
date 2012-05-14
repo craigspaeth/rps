@@ -94,9 +94,8 @@ task 'scaffold', 'generate scaffold code for basic crud on an API resource with 
     
     
     @#{i.pluralize collection} = (data) ->
-      _.compactObj #{
-      (key + ': data.' + key for key, val of attrs).join('\n    ')
-      }
+      _.compactObj
+        #{(key + ': data.' + key for key, val of attrs).join('\n    ')}
   """
   fname = "#{process.cwd()}/lib/validate.coffee"
   fs.writeFileSync fname, fs.readFileSync(fname) + validateCode

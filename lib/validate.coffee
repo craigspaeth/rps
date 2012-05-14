@@ -15,5 +15,6 @@ _.mixin compactObj: (obj) -> delete obj[key] unless val for key, val of obj; obj
     website: data.website
 
 @msgs = (data) ->
-  _.compactObj user_id: data.user_id
+  _.compactObj
+    user_id: data.user_id
     body: data.body
