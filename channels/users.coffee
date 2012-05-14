@@ -4,8 +4,19 @@ io = require "#{process.cwd()}/config/io"
 ObjectID = require('mongodb').ObjectID
 
 io.sockets.on 'connection', (socket) ->
-
-  socket.on 'login', (user) ->
+  
+  socket.on 'users/logout', (user) ->
+    db.collection 'users', (err, users) ->
+      users.findAndModify(
+        { '_id': new ObjectID(user._id) }
+        [['_id','asc']]
+        { $set: { active: false } }
+        { new: true }
+        (err, data) ->
+          socket.broadcast.emit 'users/logout', data
+      )
+  
+  socket.on 'users/login', (user) ->
     db.collection 'users', (err, users) ->
       users.findAndModify(
         { '_id': new ObjectID(user._id) }
@@ -13,7 +24,5 @@ io.sockets.on 'connection', (socket) ->
         { $set: { active: true } }
         { new: true }
         (err, data) ->
-          users.find { active: true }, (err, cursor) ->
-            cursor.toArray (err, items) ->
-              socket.broadcast.emit 'users/active', items
+          socket.broadcast.emit 'users/login', data
       )

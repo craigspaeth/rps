@@ -3,10 +3,11 @@
 # 
 
 everyauth = require 'everyauth'
-  
+validate = require "#{process.cwd()}/lib/validate"
+
 @findOrCreateTwitterUser = (session, accessToken, accessTokenSecret, twitterUserMetadata) ->
   promise = @Promise()
-  data = {
+  data = validate.users {
     name: twitterUserMetadata.name
     twitter_id: twitterUserMetadata.id
     website: twitterUserMetadata.url

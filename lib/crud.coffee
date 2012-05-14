@@ -23,8 +23,18 @@ validate = require './validate'
 
 @all = (collection) -> (req, res) ->
   db.collection collection, (err, collection) ->
-    collection.find().toArray (err, data) ->
-      res.end JSON.stringify data
+    collection.find().toArray (err, docs) ->
+      res.end JSON.stringify docs
+
+# Find a document by query of a given collection
+# 
+# @param {String} collection Name of mongo collection
+
+@find = (collection, query) -> (req, res) ->
+  db.collection collection, (err, collection) ->
+    collection.find query, (err, cursor) ->
+      cursor.toArray (err, docs) ->
+        res.end JSON.stringify docs
       
 # Find a document by `req.params.id` of a given collection
 # 

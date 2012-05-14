@@ -21,7 +21,11 @@ app.on 'start', ->
         body.should.equal '{"foo":"bar"}'
         done()
       db.stubFindOne {"foo":"bar"}, (query) ->
-        query._id.toString().should.equal '4f94627e0d3dd2b5011452fc' 
+        query._id.toString().should.equal '4f94627e0d3dd2b5011452fc'
+        
+  describe 'GET /api/v1/users/active', ->
+    
+    it 'returns active users'
             
   describe 'DELETE /api/v1/user/:id', ->
     
