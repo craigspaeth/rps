@@ -12,7 +12,8 @@
     "everyauth": "*",
     "validator": "*",
     "socket.io": "*",
-    "nap": "*"
+    "nap": "*",
+    "inflection": "*"
   },
   "devDependencies": {
     "mocha": "*",
