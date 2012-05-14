@@ -16,4 +16,4 @@ describe 'Configuring authentication', ->
     
     it 'returns a promise', ->
       rtrn = auth.findOrCreateTwitterUser.call { Promise: -> { fulfill: -> } }, {}, 'foo', 'bar', { id: 'baz' }
-      # rtrn.should.equal 'qux'
+      (rtrn.fulfill.should?).should.be.ok

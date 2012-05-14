@@ -4,6 +4,7 @@ io = require "#{process.cwd()}/config/io"
 ObjectID = require('mongodb').ObjectID
 
 io.sockets.on 'connection', (socket) ->
+  
   socket.on 'users/logout', (user) ->
     db.collection 'users', (err, users) ->
       users.findAndModify(
