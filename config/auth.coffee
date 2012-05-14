@@ -3,13 +3,6 @@
 # 
 
 everyauth = require 'everyauth'
-db = require './db'
-
-everyauth.twitter
-  .consumerKey('lZXnAhvZAfOkiQvV11fnEA')
-  .consumerSecret('FRLazLWChrfYmbb9marlWKKVRoyvt6l2a4bxvNrB6us')
-  .findOrCreateUser(@findOrCreateTwitterUser)
-  .redirectPath('/')
   
 @findOrCreateTwitterUser = (session, accessToken, accessTokenSecret, twitterUserMetadata) ->
   promise = @Promise()
@@ -18,9 +11,15 @@ everyauth.twitter
     twitter_id: twitterUserMetadata.id
     website: twitterUserMetadata.url
   }
-  db.collection 'users', (err, collection) ->
+  require('./db').collection 'users', (err, collection) ->
     collection.findAndModify { 'twitter_id': data.twitter_id }, 
       [['_id','asc']], { $set: data }, { new: true,  upsert: true }, (err, data) ->
         session.user = data
         promise.fulfill data
-  promise
+  return promise
+  
+everyauth.twitter
+  .consumerKey('lZXnAhvZAfOkiQvV11fnEA')
+  .consumerSecret('FRLazLWChrfYmbb9marlWKKVRoyvt6l2a4bxvNrB6us')
+  .findOrCreateUser(@findOrCreateTwitterUser)
+  .redirectPath('/')

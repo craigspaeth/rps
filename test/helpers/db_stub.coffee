@@ -4,3 +4,4 @@
 
 module.exports =
   collection: ->
+  open: (callback) -> callback()

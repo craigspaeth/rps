@@ -1,6 +1,6 @@
 app = require "#{process.cwd()}/config/app"
+db = require "#{process.cwd()}/config/db"
 ObjectID = require('mongodb').ObjectID
-validate = require "#{process.cwd()}/lib/validators"
 
 app.get "/api/v1/me", (req, res) ->
   db.collection 'users', (err, collection) ->

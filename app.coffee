@@ -4,7 +4,7 @@ nap = require 'nap'
 
 # Load app, database, socket.io interface, and configuration
 require './config/auth'
-app = require './config/app'
+app = module.exports = require './config/app'
 db = require './config/db'
 require './config/nap'
 
@@ -17,7 +17,7 @@ app.get "/", (req, res) ->
 
 # Start the db server, app server, and sockets
 db.open ->
-  app.listen 3000, ->
+  app.listen app.set('port'), ->
+    app.emit 'start'
     console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"
-  
   require file for file in _.flatten glob.sync './channels/**/*.coffee'
