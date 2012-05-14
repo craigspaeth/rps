@@ -12,11 +12,7 @@ app.on 'start', ->
       request "http://localhost:5000/api/v1/users", (err, req, body) ->
         body.should.equal '[{"foo":"bar"}]'
         done()
-      db.collection = (collection, callback) ->
-        callback null,
-          find: ->
-            toArray: (callback) ->
-              callback null, [{'foo': 'bar'}]
+      db.stubFindToArray [{"foo":"bar"}]
               
   describe 'GET /api/v1/user/:id', ->
     
@@ -24,11 +20,8 @@ app.on 'start', ->
       request "http://localhost:5000/api/v1/user/4f94627e0d3dd2b5011452fc", (err, req, body) ->
         body.should.equal '{"foo":"bar"}'
         done()
-      db.collection = (collection, callback) ->
-        callback null,
-          findOne: (query, callback) ->
-            query._id.toString().should.equal '4f94627e0d3dd2b5011452fc'
-            callback null, {'foo': 'bar'}
+      db.stubFindOne {"foo":"bar"}, (query) ->
+        query._id.toString().should.equal '4f94627e0d3dd2b5011452fc' 
             
   describe 'DELETE /api/v1/user/:id', ->
     
@@ -39,11 +32,8 @@ app.on 'start', ->
       }, (err, req, body) ->
         body.should.equal '{"success":true}'
         done()
-      db.collection = (collection, callback) ->
-        callback null,
-          remove: (query, callback) ->
-            query._id.toString().should.equal '4f94627e0d3dd2b5011452fc'
-            callback null, 'success'
+      db.stubRemove (query) ->
+        query._id.toString().should.equal '4f94627e0d3dd2b5011452fc' 
             
   describe 'POST /api/v1/user/:id', ->
     
@@ -58,11 +48,8 @@ app.on 'start', ->
       }, (err, req, body) ->
         body.should.equal '{"foo":"bar"}'
         done()
-      db.collection = (collection, callback) ->
-        callback null,
-          insert: (data, callback) ->
-            data.name.should.equal 'Craig Spaeth'
-            callback null, [{ foo: 'bar' }]
+      db.stubInsert { foo: 'bar' }, (data) ->
+        data.name.should.equal 'Craig Spaeth'
             
   describe 'PUT /api/v1/user/:id', ->
     
@@ -77,8 +64,5 @@ app.on 'start', ->
       }, (err, req, body) ->
         body.should.equal '{"foo":"bar"}'
         done()
-      db.collection = (collection, callback) ->
-        callback null,
-          findAndModify: (query, index, setter, options, callback) ->
-            setter.$set.name.should.equal 'Craig Spaeth'
-            callback null, { foo: 'bar' }
+      db.stubFindAndModify { foo: 'bar' }, (setter) ->
+        setter.$set.name.should.equal 'Craig Spaeth'
