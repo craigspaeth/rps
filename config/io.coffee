@@ -2,6 +2,6 @@
 # Connect socket interface with app
 # 
 
-sio = require 'socket.io'
+io = require 'socket.io'
 
-module.exports = sio.listen require('./app')
+module.exports = io.listen require('./app')

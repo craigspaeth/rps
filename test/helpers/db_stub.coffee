@@ -40,3 +40,5 @@ module.exports = db =
         findAndModify: (query, index, setter, options, callback) ->
           callback null, docMock
           cb setter
+          
+beforeEach? -> db.collection = ->
