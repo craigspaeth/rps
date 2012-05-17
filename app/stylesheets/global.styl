@@ -5,3 +5,105 @@
 @import 'base'
 
 global-reset()
+
+header-height = 30px
+footer-height = 60px
+light-grey = #ddd
+
+body, input, button
+  font-size 15px
+  line-height 1.4em
+  font-family georgia
+
+input
+  &:focus
+    outline none
+
+header
+  width 100%
+  height 30px
+  background black
+  position relative
+  z-index 2
+  
+  .name
+    position absolute
+    left 0
+    color light-grey
+    font-size 12px
+    padding 5px
+  
+  button.logout
+    position absolute
+    right 0
+    height 100%
+    width 30px
+    background #333
+    border none
+    color white
+    font-size 12px
+
+#left, #right
+  box-sizing border-box
+  position fixed
+  padding-top header-height
+  padding-bottom footer-height
+  top 0
+
+#left
+  width 70%
+  left 0
+  height 100%
+  
+  #feed
+    box-sizing border-box
+    padding 20px 20px footer-height + 10px 20px
+    height 100%
+    overflow scroll
+    box-sizing border-box
+  
+  footer
+    position absolute
+    bottom 0
+    width 100%
+    height 70px
+    margin-bottom footer-height
+    border-top 1px solid light-grey
+    input
+      height 100%
+      width 100%
+      border none
+      padding 20px
+      box-sizing border-box
+    button.submit
+      background none
+      cursor pointer
+      height 100%
+      border none
+      width 80px
+      position absolute
+      right 0
+      top 0
+      margin-bottom footer-height
+      border-left 1px solid light-grey
+      color #777
+      font-style italic
+      font-size 12px
+  
+#right
+  width 30%
+  border-left 1px solid light-grey
+  position fixed
+  right 0
+  height 100%
+  box-sizing border-box
+  padding-right 15px
+  padding-left 15px
+  padding-top header-height + 15px
+
+footer
+  background light-grey
+  height footer-height
+  position fixed
+  bottom 0
+  width 100%

@@ -11,9 +11,13 @@ require './config/nap'
 # Load the API routes and render the initial page
 require file for file in _.flatten glob.sync './api/v1/**/*.coffee'
 app.get "/", (req, res) ->
-  res.render 'index',
-    user: req.session.user
-    nap: nap
+  if req.session.user?
+    res.render 'index',
+      user: req.session.user
+      nap: nap
+  else
+    res.render 'login',
+      nap: nap
 
 # Start the db server, app server, and sockets
 db.open ->

@@ -1,25 +1,36 @@
+# 
 # Setup and initialize the application
-$ -> if USER? then InitApp() else Login()
-
-Login = ->
-  console.log 'login mode'
-
-InitApp = ->
-  window.Socket = io.connect()
-  window.CurrentUser = new User USER
-  window.Router = new IndexRouter()
-  Backbone.history.start pushState: true
+# 
+$ ->
+  highjackLinksForPushState()
+  logoutHandler()
+  startApp()
   
-  # Add the current user to active users
-  Socket.emit 'users/login', CurrentUser.toJSON()
+startApp = ->
+  window.socket = io.connect()
+  window.currentUser = new User USER
+  window.feed = new Feed()
+  setupOnlineUsers()
+  window.feedView = new FeedView collection: feed
+  window.chatView = new ChatView()
+  window.sideBar = new SidebarView collection: onlineUsers
+  socket.emit 'users/login', currentUser.toJSON()
   
-  # All local links should use the router to navigate, pushState FTW
+setupOnlineUsers = ->
+  window.onlineUsers = new Users()
+  onlineUsers.url = '/api/v1/users/online'
+  onlineUsers.fetch()
+  socket.on 'users/login', (user) -> onlineUsers.add user
+  socket.on 'users/logout', (user) ->
+    onlineUsers.remove onlineUsers.get user._id
+
+highjackLinksForPushState = ->
   $('a:not(.refresh)').live 'click', ->
     return unless $(@).attr('href')?.match /^\//
-    Router.navigate $(@).attr('href').replace(/^\/|\/$/g, ''), true
+    router.navigate $(@).attr('href').replace(/^\/|\/$/g, ''), true
     false
-  
-  # Log a user out if they close their window
+
+logoutHandler = ->
   window.onbeforeunload = ->
-    Socket.emit 'users/logout', CurrentUser.toJSON()
+    socket.emit 'users/logout', currentUser.toJSON()
     @preventDefault?()

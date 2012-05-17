@@ -5,14 +5,22 @@ html
     != nap.css('all')
   
   body
-    if !user
-      h1 Login
-      a.refresh( href='/auth/twitter' ) Auth with Twitter
-    else
-      h1 Hello #{user.name}
-      #frames
-        #home
-         #active-users
+    
+    header
+      .name= user.name
+      button.logout X
+    
+    #left
+      ul#feed
+      footer
+        input
+        button.submit Send
+    
+    #right
+      h1 Online
+      ul#online_players
+      
+    footer
     
     #scripts
       != nap.jst('all')

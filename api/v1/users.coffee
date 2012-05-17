@@ -5,7 +5,7 @@ app.get '/api/v1/users', crud.all('users')
 
 app.get '/api/v1/user/:id', crud.findById('users')
 
-app.get '/api/v1/users/active', (req, res) ->
+app.get '/api/v1/users/online', (req, res) ->
   crud.find('users', { 'active': true }) req, res
 
 app.del '/api/v1/user/:id', crud.delById('users')

@@ -23,5 +23,5 @@ nap
       all: ["app/stylesheets/**/*.styl"]
     jst:
       all: [
-        "app/templates/users/**/*.jade"
+        "app/templates/feed.jade"
       ]
