@@ -12,7 +12,9 @@ app.get '/api/v1/msgs', (req, res) ->
     res.end JSON.stringify msgs
     
 app.post '/api/v1/msgs', (req, res) ->
+  console.log req.body
   msg = new Msg(req.body)
+  console.log req.session
   msg.user_id = req.session.user._id
   msg.save (err, msg) ->
     res.end JSON.stringify msg
