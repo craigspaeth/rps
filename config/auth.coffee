@@ -3,20 +3,20 @@
 # 
 
 everyauth = require 'everyauth'
-validate = require "#{process.cwd()}/lib/validate"
+mongoose = require 'mongoose'
+User = mongoose.model 'User'
 
 @findOrCreateTwitterUser = (session, accessToken, accessTokenSecret, twitterUserMetadata) ->
   promise = @Promise()
-  data = validate.users {
+  data =
     name: twitterUserMetadata.name
     twitter_id: twitterUserMetadata.id
     website: twitterUserMetadata.url
-  }
-  require('./db').collection 'users', (err, collection) ->
-    collection.findAndModify { 'twitter_id': data.twitter_id }, 
-      [['_id','asc']], { $set: data }, { new: true,  upsert: true }, (err, data) ->
-        session.user = data
-        promise.fulfill data
+  User.findOne { twitter_id: data.twitter_id }, (err, user) ->
+    user = new User(data) unless user?    
+    user.save (err) -> 
+      session.user = user
+      promise.fulfill user
   return promise
   
 everyauth.twitter

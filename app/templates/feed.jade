@@ -1,2 +1,4 @@
 for msg in feed
-  li= msg.get('body')
+  li
+    .name= msg.get('user')
+    = msg.get('body')

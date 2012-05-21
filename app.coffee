@@ -1,27 +1,23 @@
+# 
+# Sets everything up and runs the app
+# 
+
 glob = require 'glob'
 _ = require 'underscore'
-nap = require 'nap'
+mongoose = require 'mongoose'
 
-# Load app, database, socket.io interface, and configuration
+# Load models, configuration, routes, api, and socket channels
+require file for file in _.flatten glob.sync './app/models/**/*.coffee'
 require './config/auth'
 app = module.exports = require './config/app'
-db = require './config/db'
+require './config/mongoose'
 require './config/nap'
-
-# Load the API routes and render the initial page
 require file for file in _.flatten glob.sync './api/v1/**/*.coffee'
-app.get "/", (req, res) ->
-  if req.session.user?
-    res.render 'index',
-      user: req.session.user
-      nap: nap
-  else
-    res.render 'login',
-      nap: nap
+require file for file in _.flatten glob.sync './channels/**/*.coffee'
+require './app/routes'
 
-# Start the db server, app server, and sockets
-db.open ->
+# Start the db server & app server
+mongoose.connection.on 'open', ->
   app.listen app.set('port'), ->
     app.emit 'start'
     console.log "Express server listening on port #{app.address().port} in #{app.settings.env} mode"
-  require file for file in _.flatten glob.sync './channels/**/*.coffee'

@@ -4,4 +4,4 @@
 
 io = require 'socket.io'
 
-module.exports = io.listen require('./app')
+module.exports = io.listen require('./app'), log: off

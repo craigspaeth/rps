@@ -17,7 +17,6 @@ app.configure ->
   @use everyauth.middleware()
   @use @router
   @use express.static "#{process.cwd()}/public"
-  @use express.errorHandler dumpExceptions: true, showStack: true
   
 app.configure 'development', ->
   @set 'port', 3000 || NODE_PORT
